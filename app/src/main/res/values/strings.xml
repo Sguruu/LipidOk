@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Lipid Ok</string>
+
+    <!-- Headers Screen  -->
+    <string name="HeadersRoleSelectionScreen">Выбор роли</string>
+    <string name="MainScreen">Выбор роли</string>
 </resources>

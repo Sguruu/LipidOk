@@ -1,4 +1,4 @@
-package com.sguru.lipidok.presentation.ui
+package com.sguru.lipidok.presentation.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

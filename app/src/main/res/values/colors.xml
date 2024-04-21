@@ -9,4 +9,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="ic_launcher_background_tint">#000000</color>
     <color name="ic_launcher_foreground_tint">#FFA23F16</color>
+    <color name="wave">#FF5CA3C4</color>
 </resources>
