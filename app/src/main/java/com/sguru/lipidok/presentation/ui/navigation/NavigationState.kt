@@ -5,4 +5,9 @@ sealed class NavigationState(val baseRoute: String) {
     data object MainScreen : NavigationState("MAIN")
     data object DataBaseScreen : NavigationState("DATA_BASE")
     data object GeneralScreen : NavigationState("GENERAL")
+    data object LipidProfileAssessmentScreen : NavigationState("LIPID_PROFILE_ASSESSMENT")
+    data object LipidProfileAssessmentResultScreen :
+        NavigationState("LIPID_PROFILE_ASSESSMENT_RESULT")
 }
+
+//lipid profile assessment

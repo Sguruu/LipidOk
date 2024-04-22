@@ -4,4 +4,5 @@
     <!-- Headers Screen  -->
     <string name="HeadersRoleSelectionScreen">Выбор роли</string>
     <string name="MainScreen">Выбор роли</string>
+    <string name="LipidProfileAssessmentScreen">Оценка липидного профиля</string>
 </resources>

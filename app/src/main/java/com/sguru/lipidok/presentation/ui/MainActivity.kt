@@ -21,20 +21,23 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.createGraph
 import com.sguru.lipidok.R
 import com.sguru.lipidok.presentation.ui.navigation.NavigationState
+import com.sguru.lipidok.presentation.ui.screen.LipidProfileAssessmentResultScreen
+import com.sguru.lipidok.presentation.ui.screen.LipidProfileAssessmentScreen
 import com.sguru.lipidok.presentation.ui.screen.MainScreen
 import com.sguru.lipidok.presentation.ui.screen.RoleSelectionScreen
 import com.sguru.lipidok.presentation.ui.theme.LipidOkTheme
 import com.sguru.lipidok.presentation.ui.viewmodel.MainViewModel
+import com.sguru.lipidok.presentation.ui.viewmodel.factory.MainFactory
 
 @SuppressLint("Custom")
 class MainActivity : ComponentActivity() {
 
     private val viewModel: MainViewModel by viewModels()
+
+    private val factory = MainFactory()
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
         super.onCreate(savedInstanceState)
-
-        //  window.statusBarColor = getColor(R.color.wave)
 
         splashScreen.setKeepOnScreenCondition {
             viewModel.isLoading.value
@@ -43,17 +46,19 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             LipidOkTheme {
-                MyAppNavHost()
+                MyAppNavHost(factory = factory, viewModel = viewModel)
             }
         }
     }
 }
 
 @Composable
-fun MyAppNavHost(
+internal fun MyAppNavHost(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
-    startDestination: String = NavigationState.RoleSelectionScreen.baseRoute
+    startDestination: String = NavigationState.RoleSelectionScreen.baseRoute,
+    factory: MainFactory,
+    viewModel: MainViewModel,
 ) {
     val navGraph: NavGraph = remember(navController) {
         navController.createGraph(startDestination = startDestination) {
@@ -71,6 +76,12 @@ fun MyAppNavHost(
                 MainScreen(
                     isNavigationIconClick = {
                         navController.navigate(NavigationState.RoleSelectionScreen.baseRoute)
+                    },
+                    onButtonLipidProfileAssessmentClick = {
+                        navController.navigate(
+                            NavigationState
+                                .LipidProfileAssessmentScreen.baseRoute
+                        )
                     }
                 )
             }
@@ -80,6 +91,32 @@ fun MyAppNavHost(
             composable(route = NavigationState.GeneralScreen.baseRoute) {
                 Greeting("31")
             }
+            composable(
+                route = NavigationState
+                    .LipidProfileAssessmentScreen.baseRoute
+            ) {
+                LipidProfileAssessmentScreen(
+                    isNavigationIconClick = {
+                        navController.navigate(NavigationState.MainScreen.baseRoute)
+                    },
+                    isButtonGetResultClick = {
+                        navController.navigate(
+                            NavigationState.LipidProfileAssessmentResultScreen.baseRoute
+                        )
+                    },
+                    lipidProfileQuestions = factory.getReadyLipidProfileQuestions(),
+                    viewModel = viewModel
+                )
+            }
+            composable(route = NavigationState.LipidProfileAssessmentResultScreen.baseRoute) {
+                LipidProfileAssessmentResultScreen(
+                    isNavigationIconClick = {
+                        viewModel.clearLipidProfileQuestions()
+                        navController.navigate(NavigationState.LipidProfileAssessmentScreen.baseRoute)
+                    },
+                    lipidProfileResult = viewModel.getLipidProfileQuestionsResult()
+                )
+            }
         }
     }
     NavHost(navController = navController, graph = navGraph)
@@ -87,10 +124,6 @@ fun MyAppNavHost(
 
 @Composable
 fun Greeting(name: String, modifier: Modifier = Modifier) {
-//    Text(
-//        text = "Hello $name!",
-//        modifier = modifier
-//    )
     Text(
         text = "Hello $name!",
         modifier = modifier

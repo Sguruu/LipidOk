@@ -3,6 +3,7 @@ package com.sguru.lipidok.presentation.ui.theme
 import androidx.compose.ui.graphics.Color
 
 val Wave = Color(0xFF5CA3C4)
+val Wave2 = Color(0xFFA8CDE0)
 val Grey = Color(0xFFF5F7FC)
 val White = Color(0xFFFFFFFF)
 val Black = Color(0xFF000000)
