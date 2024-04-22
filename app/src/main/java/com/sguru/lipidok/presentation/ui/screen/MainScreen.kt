@@ -36,6 +36,7 @@ import com.sguru.lipidok.presentation.ui.navigation.NavigationState
 internal fun MainScreen(
     isNavigationIconClick: () -> Unit,
     onButtonLipidProfileAssessmentClick: () -> Unit,
+    onButtonIndividualSelectionTherapyClick: () -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -47,6 +48,7 @@ internal fun MainScreen(
             MainContent(
                 paddingValue = paddingValue,
                 onButtonLipidProfileAssessmentClick = onButtonLipidProfileAssessmentClick,
+                onButtonIndividualSelectionTherapyClick = onButtonIndividualSelectionTherapyClick,
             )
         },
         bottomBar = {
@@ -59,6 +61,7 @@ internal fun MainScreen(
 private fun MainContent(
     paddingValue: PaddingValues,
     onButtonLipidProfileAssessmentClick: () -> Unit,
+    onButtonIndividualSelectionTherapyClick: () -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -79,7 +82,10 @@ private fun MainContent(
             text = "Оценка липидного профиля"
         )
         Spacer(modifier = Modifier.height(32.dp))
-        ButtonLipidOk(onClick = {}, text = "Индивидуальный подбор терапии")
+        ButtonLipidOk(
+            onClick = onButtonIndividualSelectionTherapyClick,
+            text = "Индивидуальный подбор терапии"
+        )
         Spacer(modifier = Modifier.height(32.dp))
         ButtonLipidOk(onClick = {}, text = "Данные липидного профиля")
 

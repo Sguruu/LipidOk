@@ -1,6 +1,8 @@
 package com.sguru.lipidok.presentation.ui.viewmodel.factory
 
 import com.sguru.lipidok.presentation.ui.model.Answer
+import com.sguru.lipidok.presentation.ui.model.IndividualSelectionAnswer
+import com.sguru.lipidok.presentation.ui.model.IndividualSelectionQuestion
 import com.sguru.lipidok.presentation.ui.model.LipidProfileQuestions
 import com.sguru.lipidok.presentation.ui.model.LipidProfileQuestionsResult
 import com.sguru.lipidok.presentation.ui.model.LipidProfileResult
@@ -196,6 +198,139 @@ internal class MainFactory {
             )
         }
     }
+
+    // могут быть только два уровня
+    internal fun getIndividualSelectionQuestions(): IndividualSelectionQuestion {
+        return IndividualSelectionQuestion(
+            text = "Применяемая гиполипидемическая терапия",
+            answerOptions = listOf(
+                // 1 ветка
+                IndividualSelectionQuestion(
+                    text = "Нет",
+                    answerOptions = listOf(
+                        IndividualSelectionQuestion(
+                            text = "Противопоказания к использованию статинов?",
+                            answerOptions = listOf(
+                                IndividualSelectionQuestion(
+                                    text = "Нет",
+                                    answerOptions = listOf(
+                                        IndividualSelectionQuestion(
+                                            text = "Ловастатин 0,5 мг/кг 1 раз в сутки",
+                                            answerOptions = null
+                                        )
+                                    )
+                                ),
+                                IndividualSelectionQuestion(
+                                    text = "Да",
+                                    answerOptions = listOf(
+                                        IndividualSelectionQuestion(
+                                            text = "Эзетимиб 10 мг 1 раз в сутки",
+                                            answerOptions = null
+                                        )
+                                    )
+                                )
+                            )
+                        ),
+                    )
+                ),
+                // 2 ветка
+                IndividualSelectionQuestion(
+                    text = "Статины не в максимальной дозе",
+                    answerOptions = listOf(
+                        IndividualSelectionQuestion(
+                            text = "Достигнут ли целевой уровень показателей " +
+                                    "липидного профиля ?",
+                            answerOptions = listOf(
+                                IndividualSelectionQuestion(
+                                    text = "Нет",
+                                    answerOptions = listOf(
+                                        IndividualSelectionQuestion(
+                                            text = "Ловастатин 0,5 мг/кг 1 раз в сутки или" +
+                                                    "Розувастатин до 20 мг 1 раз в сутки или" +
+                                                    "Аторвастатин до 20 мг 1 раз в сутки",
+                                            answerOptions = null
+                                        )
+                                    )
+                                ),
+                                IndividualSelectionQuestion(
+                                    text = "Да",
+                                    answerOptions = listOf(
+                                        IndividualSelectionQuestion(
+                                            text = getTextIndividualSelectionQuestion(),
+                                            answerOptions = null
+                                        )
+                                    )
+                                )
+                            )
+                        ),
+                    )
+                ),
+                //3 ветка
+                IndividualSelectionQuestion(
+                    text = "Статины в максимальной дозе",
+                    answerOptions = listOf(
+                        IndividualSelectionQuestion(
+                            text = "Достигнут ли целевой уровень показателей " +
+                                    "липидного профиля ?",
+                            answerOptions = listOf(
+                                IndividualSelectionQuestion(
+                                    text = "Нет",
+                                    answerOptions = listOf(
+                                        IndividualSelectionQuestion(
+                                            text = "Добавить Эзетимиб 10 мг 1 раз в сутки",
+                                            answerOptions = null
+                                        )
+                                    )
+                                ),
+                                IndividualSelectionQuestion(
+                                    text = "Да",
+                                    answerOptions = listOf(
+                                        IndividualSelectionQuestion(
+                                            text = getTextIndividualSelectionQuestion(),
+                                            answerOptions = null
+                                        )
+                                    )
+                                )
+                            )
+                        ),
+                    )
+                ),
+                // 4 ветка
+                IndividualSelectionQuestion(
+                    text = "Статины + Эзетемиб",
+                    answerOptions = listOf(
+                        IndividualSelectionQuestion(
+                            text = "Достигнут ли целевой уровень показателей " +
+                                    "липидного профиля ?",
+                            answerOptions = listOf(
+                                IndividualSelectionQuestion(
+                                    text = "Нет",
+                                    answerOptions = listOf(
+                                        IndividualSelectionQuestion(
+                                            text = "Добавить Эволокумаб 140 мг 1 раз в 2 " +
+                                                    "недели",
+                                            answerOptions = null
+                                        )
+                                    )
+                                ),
+                                IndividualSelectionQuestion(
+                                    text = "Да",
+                                    answerOptions = listOf(
+                                        IndividualSelectionQuestion(
+                                            text = getTextIndividualSelectionQuestion(),
+                                            answerOptions = null
+                                        )
+                                    )
+                                )
+                            )
+                        ),
+                    )
+                ),
+            )
+        )
+    }
+
+    private fun getTextIndividualSelectionQuestion(): String = "Продолжить назначенную терапию"
 
     private fun getLipidProfileResult(
         lipidRiskGroupType: LipidRiskGroupType,

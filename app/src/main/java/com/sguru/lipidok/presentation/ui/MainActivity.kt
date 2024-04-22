@@ -21,6 +21,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.createGraph
 import com.sguru.lipidok.R
 import com.sguru.lipidok.presentation.ui.navigation.NavigationState
+import com.sguru.lipidok.presentation.ui.screen.IndividualSelectionOfTherapyScreen
 import com.sguru.lipidok.presentation.ui.screen.LipidProfileAssessmentResultScreen
 import com.sguru.lipidok.presentation.ui.screen.LipidProfileAssessmentScreen
 import com.sguru.lipidok.presentation.ui.screen.MainScreen
@@ -82,6 +83,11 @@ internal fun MyAppNavHost(
                             NavigationState
                                 .LipidProfileAssessmentScreen.baseRoute
                         )
+                    },
+                    onButtonIndividualSelectionTherapyClick = {
+                        navController.navigate(
+                            NavigationState.IndividualSelectionOfTherapyScreen.baseRoute
+                        )
                     }
                 )
             }
@@ -120,6 +126,17 @@ internal fun MyAppNavHost(
                         navController.navigate(NavigationState.MainScreen.baseRoute)
                         navController.clearBackStack(NavigationState.MainScreen.baseRoute)
                     }
+                )
+            }
+            composable(route = NavigationState.IndividualSelectionOfTherapyScreen.baseRoute) {
+                IndividualSelectionOfTherapyScreen(
+                    individualSelectionQuestion = factory.getIndividualSelectionQuestions(),
+                    isNavigationIconClick = {
+                        navController.navigate(NavigationState.MainScreen.baseRoute)
+                    },
+                    onButtonCompleteClick = {
+                        navController.navigate(NavigationState.MainScreen.baseRoute)
+                    },
                 )
             }
         }

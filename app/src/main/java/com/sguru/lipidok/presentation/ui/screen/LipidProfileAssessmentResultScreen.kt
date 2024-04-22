@@ -201,7 +201,7 @@ private fun ButtonComplete(
 }
 
 @Composable
-fun RoundedDescription(
+internal fun RoundedDescription(
     description: String,
 ) {
     Box(
