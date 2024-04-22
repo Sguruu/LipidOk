@@ -201,14 +201,13 @@ internal class MainFactory {
         lipidRiskGroupType: LipidRiskGroupType,
     ): LipidProfileResult {
         return LipidProfileResult(
-            resultTitle = getResultTitle(lipidRiskGroupType),
+            resultTitle = getResultTitle(),
             lipidRiskGroupType = lipidRiskGroupType,
             description = getDescription(lipidRiskGroupType)
         )
     }
 
-    private fun getResultTitle(lipidRiskGroupType: LipidRiskGroupType): String =
-        "Группа риска - ${lipidRiskGroupType.text}"
+    private fun getResultTitle(): String = "Группа риска - "
 
     private fun getDescription(lipidRiskGroupType: LipidRiskGroupType): String {
 

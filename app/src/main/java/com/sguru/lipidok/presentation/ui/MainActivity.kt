@@ -114,7 +114,12 @@ internal fun MyAppNavHost(
                         viewModel.clearLipidProfileQuestions()
                         navController.navigate(NavigationState.LipidProfileAssessmentScreen.baseRoute)
                     },
-                    lipidProfileResult = viewModel.getLipidProfileQuestionsResult()
+                    lipidProfileResult = viewModel.getLipidProfileQuestionsResult(),
+                    onButtonCompleteClick = {
+                        viewModel.clearLipidProfileQuestions()
+                        navController.navigate(NavigationState.MainScreen.baseRoute)
+                        navController.clearBackStack(NavigationState.MainScreen.baseRoute)
+                    }
                 )
             }
         }

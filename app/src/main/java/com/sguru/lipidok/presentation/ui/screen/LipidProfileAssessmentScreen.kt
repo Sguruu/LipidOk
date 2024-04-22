@@ -74,7 +74,7 @@ internal fun LipidProfileAssessmentScreen(
 ) {
     //val screenState = remember { viewModel.screenState }
     val lipidProfileQuestionsResult by viewModel.lipidProfileQuestionsResult.collectAsState()
-    var enableButton by remember { mutableStateOf(false) }
+    var enableButton by remember { mutableStateOf(true) }
 
 
     Screen(
@@ -86,7 +86,7 @@ internal fun LipidProfileAssessmentScreen(
     )
 
     LaunchedEffect(lipidProfileQuestionsResult) {
-        enableButton = checkEnableButton(lipidProfileQuestionsResult)
+       // enableButton = checkEnableButton(lipidProfileQuestionsResult)
     }
 }
 

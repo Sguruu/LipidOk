@@ -11,8 +11,8 @@ data class LipidProfileResult(
 )
 
 enum class LipidRiskGroupType(val text: String) {
-    VERT_TALL("Очень высокая"),
-    HIGH("Высокая"),
-    MEDIUM("Средняя"),
-    LOW("Низкая")
+    VERT_TALL("очень высокая"),
+    HIGH("высокая"),
+    MEDIUM("средняя"),
+    LOW("низкая")
 }
