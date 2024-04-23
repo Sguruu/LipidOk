@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    id("kotlin-kapt")
 }
 
 android {
@@ -68,4 +69,17 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
     implementation(libs.core.splashscreen)
     implementation(libs.navigation.compose)
+
+    implementation(libs.room.ktx)
+    implementation(libs.room.runtime)
+    kapt("androidx.room:room-compiler:2.6.1")
+
+//    //RoomDao
+//    def room_version = "2.5.1"
+//    // библиотека room
+//    implementation "androidx.room:room-runtime:$room_version"
+//    // позволяет автоматически сгенерировать реализации для DAO и БД
+//    kapt "androidx.room:room-compiler:$room_version"
+//    // позволяет использовать Room с корутинами
+//    implementation "androidx.room:room-ktx:$room_version"
 }
