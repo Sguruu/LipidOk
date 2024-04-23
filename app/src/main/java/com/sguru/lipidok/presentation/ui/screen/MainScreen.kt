@@ -9,8 +9,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
@@ -28,16 +28,17 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.sguru.lipidok.R
 import com.sguru.lipidok.presentation.ui.component.ButtonLipidOk
-import com.sguru.lipidok.presentation.ui.component.Text20LipidOk
 import com.sguru.lipidok.presentation.ui.component.TopBarLipidOk
-import com.sguru.lipidok.presentation.ui.navigation.NavigationState
 
 @Composable
 internal fun MainScreen(
     isNavigationIconClick: () -> Unit,
     onButtonLipidProfileAssessmentClick: () -> Unit,
     onButtonIndividualSelectionTherapyClick: () -> Unit,
+    startItemNavigationBar: Int = 0
 ) {
+    var selectedItemNavigationBar by remember { mutableIntStateOf(startItemNavigationBar) }
+
     Scaffold(
         topBar = {
             TopBarLipidOk(
@@ -45,14 +46,24 @@ internal fun MainScreen(
             )
         },
         content = { paddingValue ->
-            MainContent(
-                paddingValue = paddingValue,
-                onButtonLipidProfileAssessmentClick = onButtonLipidProfileAssessmentClick,
-                onButtonIndividualSelectionTherapyClick = onButtonIndividualSelectionTherapyClick,
-            )
+            if (selectedItemNavigationBar == 0) {
+                MainContent(
+                    paddingValue = paddingValue,
+                    onButtonLipidProfileAssessmentClick = onButtonLipidProfileAssessmentClick,
+                    onButtonIndividualSelectionTherapyClick = onButtonIndividualSelectionTherapyClick,
+                )
+            }
+            if (selectedItemNavigationBar == 1) {
+
+            }
+            if (selectedItemNavigationBar == 2) {
+            }
         },
         bottomBar = {
-            NavigationBarSample()
+            NavigationBarSample(selectedItemNavigationBar,
+                onClickNavBar = { i ->
+                    selectedItemNavigationBar = i
+                })
         }
     )
 }
@@ -70,32 +81,49 @@ private fun MainContent(
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Spacer(modifier = Modifier.height(30.dp))
-        Image(
-            modifier = Modifier.size(300.dp, 180.dp),
-            painter = painterResource(id = R.drawable.image_logo),
-            contentDescription = null
-        )
-        Spacer(modifier = Modifier.height(80.dp))
-        ButtonLipidOk(
-            onClick = onButtonLipidProfileAssessmentClick,
-            text = "Оценка липидного профиля"
-        )
-        Spacer(modifier = Modifier.height(32.dp))
-        ButtonLipidOk(
-            onClick = onButtonIndividualSelectionTherapyClick,
-            text = "Индивидуальный подбор терапии"
-        )
-        Spacer(modifier = Modifier.height(32.dp))
-        ButtonLipidOk(onClick = {}, text = "Данные липидного профиля")
+        LazyColumn(
+            modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.Top,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            item {
+                Spacer(modifier = Modifier.height(30.dp))
+                Image(
+                    modifier = Modifier.size(300.dp, 180.dp),
+                    painter = painterResource(id = R.drawable.image_logo),
+                    contentDescription = null
+                )
+            }
+            item {
+                Spacer(modifier = Modifier.height(80.dp))
+                ButtonLipidOk(
+                    onClick = onButtonLipidProfileAssessmentClick,
+                    text = "Оценка липидного профиля"
+                )
+            }
+            item {
+                Spacer(modifier = Modifier.height(32.dp))
+                ButtonLipidOk(
+                    onClick = onButtonIndividualSelectionTherapyClick,
+                    text = "Индивидуальный подбор терапии"
+                )
+            }
+            item {
+                Spacer(modifier = Modifier.height(32.dp))
+                ButtonLipidOk(onClick = {}, text = "Данные липидного профиля")
+            }
+        }
+
 
     }
-
 }
 
 @Composable
-fun NavigationBarSample() {
-    var selectedItem by remember { mutableIntStateOf(0) }
+fun NavigationBarSample(
+    selectedItemNavigationBar: Int,
+    onClickNavBar: (Int) -> Unit,
+) {
+
     val items = listOf("Пациент", "База данных", "Общее")
 
     NavigationBar {
@@ -103,8 +131,8 @@ fun NavigationBarSample() {
             NavigationBarItem(
                 icon = { Icon(Icons.Filled.Star, contentDescription = item) },
                 label = { Text(item) },
-                selected = selectedItem == index,
-                onClick = { selectedItem = index }
+                selected = selectedItemNavigationBar == index,
+                onClick = { onClickNavBar(index) }
             )
         }
     }

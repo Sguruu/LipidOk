@@ -7,9 +7,20 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.MutableTransitionState
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkVertically
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
@@ -63,7 +74,10 @@ internal fun MyAppNavHost(
 ) {
     val navGraph: NavGraph = remember(navController) {
         navController.createGraph(startDestination = startDestination) {
-            composable(route = NavigationState.RoleSelectionScreen.baseRoute) {
+            composable(
+                route = NavigationState.RoleSelectionScreen.baseRoute,
+                enterTransition = { fadeIn(animationSpec = tween(100)) },
+            ) {
                 RoleSelectionScreen(
                     onButton1Click = {
                         navController.navigate(NavigationState.MainScreen.baseRoute)
@@ -73,7 +87,10 @@ internal fun MyAppNavHost(
                     },
                 )
             }
-            composable(route = NavigationState.MainScreen.baseRoute) {
+            composable(
+                route = NavigationState.MainScreen.baseRoute,
+                enterTransition = { fadeIn(animationSpec = tween(100)) },
+            ) {
                 MainScreen(
                     isNavigationIconClick = {
                         navController.navigate(NavigationState.RoleSelectionScreen.baseRoute)
@@ -88,18 +105,26 @@ internal fun MyAppNavHost(
                         navController.navigate(
                             NavigationState.IndividualSelectionOfTherapyScreen.baseRoute
                         )
-                    }
+                    },
+                    startItemNavigationBar = 0
                 )
             }
-            composable(route = NavigationState.DataBaseScreen.baseRoute) {
+            composable(
+                route = NavigationState.DataBaseScreen.baseRoute,
+                enterTransition = { fadeIn(animationSpec = tween(100)) },
+            ) {
                 Greeting("31")
             }
-            composable(route = NavigationState.GeneralScreen.baseRoute) {
+            composable(
+                route = NavigationState.GeneralScreen.baseRoute,
+                enterTransition = { fadeIn(animationSpec = tween(100)) },
+            ) {
                 Greeting("31")
             }
             composable(
                 route = NavigationState
-                    .LipidProfileAssessmentScreen.baseRoute
+                    .LipidProfileAssessmentScreen.baseRoute,
+                enterTransition = { fadeIn(animationSpec = tween(100)) },
             ) {
                 LipidProfileAssessmentScreen(
                     isNavigationIconClick = {
@@ -114,7 +139,10 @@ internal fun MyAppNavHost(
                     viewModel = viewModel
                 )
             }
-            composable(route = NavigationState.LipidProfileAssessmentResultScreen.baseRoute) {
+            composable(
+                route = NavigationState.LipidProfileAssessmentResultScreen.baseRoute,
+                enterTransition = { fadeIn(animationSpec = tween(100)) },
+            ) {
                 LipidProfileAssessmentResultScreen(
                     isNavigationIconClick = {
                         viewModel.clearLipidProfileQuestions()
@@ -128,7 +156,10 @@ internal fun MyAppNavHost(
                     }
                 )
             }
-            composable(route = NavigationState.IndividualSelectionOfTherapyScreen.baseRoute) {
+            composable(
+                route = NavigationState.IndividualSelectionOfTherapyScreen.baseRoute,
+                enterTransition = { fadeIn(animationSpec = tween(100)) },
+            ) {
                 IndividualSelectionOfTherapyScreen(
                     individualSelectionQuestion = factory.getIndividualSelectionQuestions(),
                     isNavigationIconClick = {
@@ -140,8 +171,28 @@ internal fun MyAppNavHost(
                 )
             }
         }
+
+        /* Экраны пациента */
     }
     NavHost(navController = navController, graph = navGraph)
+}
+
+@Composable
+fun EnterAnimation(content: @Composable () -> Unit) {
+    AnimatedVisibility(
+        visibleState = MutableTransitionState(
+            initialState = false
+        ).apply { targetState = true },
+        modifier = Modifier,
+        enter = slideInVertically(
+            initialOffsetY = { -40 }
+        ) + expandVertically(
+            expandFrom = Alignment.Top
+        ) + fadeIn(initialAlpha = 0.3f),
+        exit = slideOutVertically() + shrinkVertically() + fadeOut(),
+    ) {
+        content()
+    }
 }
 
 @Composable
