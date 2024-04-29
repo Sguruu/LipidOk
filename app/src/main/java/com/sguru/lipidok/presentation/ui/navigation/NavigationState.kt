@@ -11,4 +11,6 @@ sealed class NavigationState(val baseRoute: String) {
 
     data object IndividualSelectionOfTherapyScreen :
         NavigationState("INDIVIDUAL_SELECTION_OF_THERAPY")
+    data object CreatePatientScreen : NavigationState("CREATE_PATIENT")
+    data object PatientInfoScreen : NavigationState("PATIENT_INFO")
 }

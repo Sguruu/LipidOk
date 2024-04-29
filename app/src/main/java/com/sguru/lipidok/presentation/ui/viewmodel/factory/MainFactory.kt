@@ -1,7 +1,6 @@
 package com.sguru.lipidok.presentation.ui.viewmodel.factory
 
 import com.sguru.lipidok.presentation.ui.model.Answer
-import com.sguru.lipidok.presentation.ui.model.IndividualSelectionAnswer
 import com.sguru.lipidok.presentation.ui.model.IndividualSelectionQuestion
 import com.sguru.lipidok.presentation.ui.model.LipidProfileQuestions
 import com.sguru.lipidok.presentation.ui.model.LipidProfileQuestionsResult
@@ -185,6 +184,26 @@ internal class MainFactory {
 
             else -> {
                 getLipidProfileResult(LipidRiskGroupType.VERT_TALL)
+            }
+        }
+    }
+
+    fun getReadyLipidProfileResult(lipidRiskGroupType: LipidRiskGroupType): LipidProfileResult {
+        return when (lipidRiskGroupType) {
+            LipidRiskGroupType.VERT_TALL -> {
+                getLipidProfileResult(LipidRiskGroupType.VERT_TALL)
+            }
+
+            LipidRiskGroupType.HIGH -> {
+                getLipidProfileResult(LipidRiskGroupType.HIGH)
+            }
+
+            LipidRiskGroupType.MEDIUM -> {
+                getLipidProfileResult(LipidRiskGroupType.MEDIUM)
+            }
+
+            LipidRiskGroupType.LOW -> {
+                getLipidProfileResult(LipidRiskGroupType.LOW)
             }
         }
     }

@@ -17,15 +17,11 @@ import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
@@ -33,11 +29,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.sguru.lipidok.R
 import com.sguru.lipidok.presentation.ui.component.ButtonLipidOk
-import com.sguru.lipidok.presentation.ui.component.ExposedDropdownMenuLipidOk
 import com.sguru.lipidok.presentation.ui.component.Text14LipidOk
 import com.sguru.lipidok.presentation.ui.component.Text20LipidOk
 import com.sguru.lipidok.presentation.ui.component.TopBarLipidOk
-import com.sguru.lipidok.presentation.ui.model.LipidProfileQuestions
 import com.sguru.lipidok.presentation.ui.model.LipidProfileResult
 import com.sguru.lipidok.presentation.ui.model.LipidRiskGroupType
 import com.sguru.lipidok.presentation.ui.theme.Brown
@@ -46,7 +40,6 @@ import com.sguru.lipidok.presentation.ui.theme.Grey
 import com.sguru.lipidok.presentation.ui.theme.LipidOkTheme
 import com.sguru.lipidok.presentation.ui.theme.Red
 import com.sguru.lipidok.presentation.ui.theme.Yellow
-import com.sguru.lipidok.presentation.ui.viewmodel.factory.MainFactory
 
 @Composable
 internal fun LipidProfileAssessmentResultScreen(
@@ -137,7 +130,6 @@ private fun LipidProfileAssessmentResulContent(
                     result = lipidProfileResult.lipidRiskGroupType.text,
                     colorResult = colorResult
                 )
-                lipidProfileResult.description
             }
             item {
                 Spacer(modifier = Modifier.height(12.dp))

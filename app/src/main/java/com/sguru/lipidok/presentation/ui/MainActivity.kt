@@ -1,7 +1,6 @@
 package com.sguru.lipidok.presentation.ui
 
 import android.annotation.SuppressLint
-import android.graphics.Color
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -13,13 +12,14 @@ import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
-import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -30,12 +30,15 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.createGraph
-import com.sguru.lipidok.R
+import com.sguru.lipidok.presentation.ui.model.LipidRiskGroupType
+import com.sguru.lipidok.presentation.ui.model.ScreenEvent
 import com.sguru.lipidok.presentation.ui.navigation.NavigationState
+import com.sguru.lipidok.presentation.ui.screen.CreatePatientScreen
 import com.sguru.lipidok.presentation.ui.screen.IndividualSelectionOfTherapyScreen
 import com.sguru.lipidok.presentation.ui.screen.LipidProfileAssessmentResultScreen
 import com.sguru.lipidok.presentation.ui.screen.LipidProfileAssessmentScreen
-import com.sguru.lipidok.presentation.ui.screen.MainScreen
+import com.sguru.lipidok.presentation.ui.screen.MainScreen.MainScreen
+import com.sguru.lipidok.presentation.ui.screen.PatientInfoScreen
 import com.sguru.lipidok.presentation.ui.screen.RoleSelectionScreen
 import com.sguru.lipidok.presentation.ui.theme.LipidOkTheme
 import com.sguru.lipidok.presentation.ui.viewmodel.MainViewModel
@@ -64,6 +67,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+@SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 internal fun MyAppNavHost(
     modifier: Modifier = Modifier,
@@ -72,6 +76,9 @@ internal fun MyAppNavHost(
     factory: MainFactory,
     viewModel: MainViewModel,
 ) {
+    var selectedItemNavigationBar by remember { mutableIntStateOf(0) }
+    val onEvent = remember { { event: ScreenEvent -> viewModel.onEvent(event) } }
+
     val navGraph: NavGraph = remember(navController) {
         navController.createGraph(startDestination = startDestination) {
             composable(
@@ -91,6 +98,9 @@ internal fun MyAppNavHost(
                 route = NavigationState.MainScreen.baseRoute,
                 enterTransition = { fadeIn(animationSpec = tween(100)) },
             ) {
+                // вызов листа
+                viewModel.getListPatient()
+
                 MainScreen(
                     isNavigationIconClick = {
                         navController.navigate(NavigationState.RoleSelectionScreen.baseRoute)
@@ -106,14 +116,24 @@ internal fun MyAppNavHost(
                             NavigationState.IndividualSelectionOfTherapyScreen.baseRoute
                         )
                     },
-                    startItemNavigationBar = 0
+                    onClickCreatePatientButton = {
+                        navController.navigate(
+                            NavigationState.CreatePatientScreen.baseRoute
+                        )
+                    },
+                    selectedItemNavigationBar = selectedItemNavigationBar,
+                    onClickNavBar = { selectedItemNavigationBar = it },
+                    viewModel = viewModel,
+                    onEvent = onEvent,
+                    onPatientClick = {
+                        navController.navigate(NavigationState.PatientInfoScreen.baseRoute)
+                    }
                 )
             }
             composable(
                 route = NavigationState.DataBaseScreen.baseRoute,
                 enterTransition = { fadeIn(animationSpec = tween(100)) },
             ) {
-                Greeting("31")
             }
             composable(
                 route = NavigationState.GeneralScreen.baseRoute,
@@ -168,6 +188,34 @@ internal fun MyAppNavHost(
                     onButtonCompleteClick = {
                         navController.navigate(NavigationState.MainScreen.baseRoute)
                     },
+                )
+            }
+            composable(
+                route = NavigationState.CreatePatientScreen.baseRoute,
+                enterTransition = { fadeIn(animationSpec = tween(100)) },
+            ) {
+                CreatePatientScreen(
+                    isNavigationIconClick = {
+                        navController.navigate(NavigationState.MainScreen.baseRoute)
+                        navController.clearBackStack(NavigationState.MainScreen.baseRoute)
+                    },
+                    onEvent = onEvent,
+                )
+            }
+            composable(
+                route = NavigationState.PatientInfoScreen.baseRoute,
+                enterTransition = { fadeIn(animationSpec = tween(100)) },
+            ) {
+                PatientInfoScreen(
+                    viewModel = viewModel,
+                    isNavigationIconClick = {
+                        navController.popBackStack()
+                    },
+                    lipidProfileResult = viewModel.getLipidProfileQuestionsResult(
+                        LipidRiskGroupType.getByTextType(
+                            viewModel.patientInfo.value?.first?.riskLevel ?: ""
+                        )
+                    )
                 )
             }
         }

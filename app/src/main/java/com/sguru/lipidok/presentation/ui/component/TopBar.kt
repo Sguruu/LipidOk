@@ -1,6 +1,5 @@
 package com.sguru.lipidok.presentation.ui.component
 
-import android.graphics.drawable.PaintDrawable
 import androidx.annotation.StringRes
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth

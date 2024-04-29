@@ -14,5 +14,16 @@ enum class LipidRiskGroupType(val text: String) {
     VERT_TALL("очень высокая"),
     HIGH("высокая"),
     MEDIUM("средняя"),
-    LOW("низкая")
+    LOW("низкая");
+
+    companion object {
+        fun getByTextType(text: String): LipidRiskGroupType {
+            LipidRiskGroupType.entries.forEach {
+                if (text == it.text){
+                    return it
+                }
+            }
+            return LOW
+        }
+    }
 }

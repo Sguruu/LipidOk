@@ -27,13 +27,15 @@ internal fun Text20LipidOk(
 internal fun Text16LipidOk(
     modifier: Modifier = Modifier,
     text: String,
-    textAlign: TextAlign? = null
+    textAlign: TextAlign? = null,
+    color: Color = Color.Unspecified
 ) {
     Text(
         modifier = modifier,
         textAlign = textAlign,
         text = text,
         fontSize = 16.sp,
+        color = color
     )
 }
 

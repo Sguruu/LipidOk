@@ -1,10 +1,16 @@
 package com.sguru.lipidok.presentation.ui.viewmodel
 
 import android.util.Log
+import androidx.compose.ui.res.integerResource
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.sguru.lipidok.domain.interactor.MainInteractor
+import com.sguru.lipidok.domain.model.LipidProfileModel
+import com.sguru.lipidok.domain.model.PatientModel
 import com.sguru.lipidok.presentation.ui.model.LipidProfileQuestionsResult
 import com.sguru.lipidok.presentation.ui.model.LipidProfileResult
+import com.sguru.lipidok.presentation.ui.model.LipidRiskGroupType
+import com.sguru.lipidok.presentation.ui.model.ScreenEvent
 import com.sguru.lipidok.presentation.ui.viewmodel.factory.MainFactory
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,10 +20,17 @@ import kotlinx.coroutines.launch
 
 internal class MainViewModel : ViewModel() {
 
+    private val interactor = MainInteractor()
     private val factory = MainFactory()
 
     private val _isLoading = MutableStateFlow(true)
     val isLoading = _isLoading.asStateFlow()
+
+    private val _patients = MutableStateFlow<List<PatientModel>>(listOf())
+    val patients = _patients.asStateFlow()
+
+    private val _patientInfo = MutableStateFlow<Pair<PatientModel, List<LipidProfileModel>>?>(null)
+     val patientInfo = _patientInfo.asStateFlow()
 
     private val _lipidProfileQuestionsResult =
         MutableStateFlow(factory.getReadyLipidProfileQuestionsResult())
@@ -31,8 +44,31 @@ internal class MainViewModel : ViewModel() {
         }
     }
 
+    fun getListPatient() {
+        viewModelScope.launch {
+            Log.d("MyTest", ">>> interactor.getPatients() ${interactor.getPatients()}")
+            _patients.value = interactor.getPatients()
+        }
+    }
+
+    fun onEvent(event: ScreenEvent) {
+        when (event) {
+            is ScreenEvent.CreatePatient -> {
+                onEventCreatePatient(event)
+            }
+
+            is ScreenEvent.DataBase -> {
+                onEventDataBasePatient(event)
+            }
+        }
+    }
+
     fun getLipidProfileQuestionsResult(): LipidProfileResult {
         return factory.getReadyLipidProfileResult(getValuePoint(_lipidProfileQuestionsResult.value))
+    }
+
+    fun getLipidProfileQuestionsResult(lipidRiskGroupType: LipidRiskGroupType): LipidProfileResult {
+        return factory.getReadyLipidProfileResult(lipidRiskGroupType)
     }
 
     fun updateLipidProfileQuestions(index: Int, valueAnswer: String) {
@@ -70,6 +106,47 @@ internal class MainViewModel : ViewModel() {
     fun clearLipidProfileQuestions() {
         _lipidProfileQuestionsResult.update {
             factory.getReadyLipidProfileQuestionsResult()
+        }
+    }
+
+    private fun onEventCreatePatient(event: ScreenEvent.CreatePatient) {
+        when (event) {
+            is ScreenEvent.CreatePatient.OnButtonClickedCreatePatient -> {
+                viewModelScope.launch {
+                    Log.d("MyTest", ">>>onEventCreatePatient ${event.value}")
+                    interactor.savePatient(
+                        value = Pair(
+                            first =
+                            PatientModel(
+                                id = 0,
+                                name = event.value.name,
+                                surname = event.value.surname,
+                                emias = event.value.emias,
+                                riskLevel = event.value.riskLevel.text
+                            ),
+                            second = event.value.lipidProfile
+                        )
+                    )
+                    getListPatient()
+                }
+            }
+        }
+    }
+
+    private fun onEventDataBasePatient(event: ScreenEvent.DataBase) {
+        when (event) {
+            is ScreenEvent.DataBase.OnButtonClickedDeletePatient -> {
+                viewModelScope.launch {
+                    interactor.deletePatient(event.patientId)
+                    _patients.value = interactor.getPatients()
+                }
+            }
+
+            is ScreenEvent.DataBase.OnItemPatientClicked -> {
+                viewModelScope.launch {
+                    _patientInfo.value = interactor.getPatientById(event.patientId)
+                }
+            }
         }
     }
 

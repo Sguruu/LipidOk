@@ -24,10 +24,25 @@ interface PatientDao {
     suspend fun getPatientById(id: Long): PatientEntity
 
     /**
+     * Получение пациента по имени и фамилии и emias
+     */
+    @Query(
+        "SELECT * FROM ${PatientContract.TABLE_NAME} WHERE " +
+                "${PatientContract.Columns.User.NAME} = :name AND " +
+                "${PatientContract.Columns.User.SURNAME} = :surname AND " +
+                "${PatientContract.Columns.User.EMIAS} = :emias"
+    )
+    suspend fun getPatientByNameAndSurnameAndEmias(
+        name: String,
+        surname: String,
+        emias: String
+    ): PatientEntity
+
+    /**
      * Получение всех пациентов
      */
     @Query("SELECT * FROM ${PatientContract.TABLE_NAME}")
-    suspend fun getPatientById(): List<PatientEntity>
+    suspend fun getPatientList(): List<PatientEntity>
 
 
     /**
@@ -44,4 +59,10 @@ interface PatientDao {
                 ":patientID"
     )
     suspend fun getListLipidProfile(patientID: Long): List<LipidProfileEntity>
+
+    @Query("DELETE FROM ${PatientContract.TABLE_NAME} WHERE id = :id")
+    suspend fun deletePatient(id: Long)
+
+    @Query("DELETE FROM ${LipidProfileContract.TABLE_NAME} WHERE patientId = :patientId")
+    suspend fun deleteLipidProfile(patientId: Long)
 }

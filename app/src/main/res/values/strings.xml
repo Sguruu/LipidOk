@@ -6,4 +6,9 @@
     <string name="MainScreen">Выбор роли</string>
     <string name="LipidProfileAssessmentScreen">Оценка липидного профиля</string>
     <string name="IndividualSelectionOfTherapyScreen">Индивидуальный подбор терапии</string>
+    <string name="DataBaseScreen">Пациенты</string>
+    <string name="GeneralScreen">Общее</string>
+    <string name="CreatePatientScreen">Создание пациента</string>
+    <string name="EditPatientScreen">Редактирование пациента</string>
+    <string name="PatientInfoScreen">Данные пациента</string>
 </resources>
