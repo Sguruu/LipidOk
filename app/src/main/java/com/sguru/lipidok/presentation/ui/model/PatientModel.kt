@@ -9,6 +9,7 @@ internal data class PatientModel(
 )
 
 internal data class LipidProfile(
+    val id: Long,
     val cholesterol: Float,
     val lpnp: Float,
     val lpvp: Float,

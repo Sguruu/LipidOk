@@ -1,8 +1,6 @@
 package com.sguru.lipidok.data.repository
 
-import androidx.room.Query
 import com.sguru.lipidok.data.db.DataBase
-import com.sguru.lipidok.data.db.contract.LipidProfileContract
 import com.sguru.lipidok.data.db.model.LipidProfileEntity
 import com.sguru.lipidok.data.db.model.PatientEntity
 import com.sguru.lipidok.domain.model.LipidProfileModel
@@ -41,9 +39,31 @@ internal class MainRepository {
         dataBase.insertLipidProfile(lipidProfilesEntity)
     }
 
+    internal suspend fun updateLipidProfile(lipidProfileModel: LipidProfileModel) {
+        val lipidProfilesEntity = LipidProfileEntity(
+            patientId = lipidProfileModel.patientId,
+            cholesterol = lipidProfileModel.cholesterol,
+            lpnp = lipidProfileModel.lpnp,
+            lpvp = lipidProfileModel.lpvp,
+            triglycerols = lipidProfileModel.triglycerols,
+            atherogenicIndex = lipidProfileModel.atherogenicIndex,
+        )
+
+
+        dataBase.updateLipidProfile(
+            id = lipidProfileModel.id,
+            cholesterol = lipidProfileModel.cholesterol,
+            lpnp = lipidProfileModel.lpnp,
+            lpvp = lipidProfileModel.lpvp,
+            triglycerols = lipidProfileModel.triglycerols,
+            atherogenicIndex = lipidProfileModel.atherogenicIndex,
+        )
+    }
+
     internal suspend fun getListLipidProfile(patientID: Long): List<LipidProfileModel> {
         return dataBase.getListLipidProfile(patientID).map {
             LipidProfileModel(
+                id = it.id,
                 patientId = it.patientId,
                 cholesterol = it.cholesterol,
                 lpnp = it.lpnp,

@@ -20,6 +20,7 @@ internal class MainInteractor {
         repository.saveLipidProfile(
             value.second.map {
                 LipidProfileModel(
+                    id = it.id,
                     patientId = idPatient.id,
                     cholesterol = it.cholesterol.toString(),
                     lpnp = it.lpnp.toString(),
@@ -43,5 +44,10 @@ internal class MainInteractor {
         Log.d("MyTest", ">>> deletePatient $patientId")
         repository.deletePatient(patientId)
         repository.deleteLipidProfile(patientId)
+    }
+
+    internal suspend fun updateLipidProfile(lipidProfileModel: LipidProfileModel) {
+        Log.d("MyTest", ">>> updateLipidProfile ${lipidProfileModel}")
+        repository.updateLipidProfile(lipidProfileModel)
     }
 }

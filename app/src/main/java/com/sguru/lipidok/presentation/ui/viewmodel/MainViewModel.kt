@@ -1,7 +1,6 @@
 package com.sguru.lipidok.presentation.ui.viewmodel
 
 import android.util.Log
-import androidx.compose.ui.res.integerResource
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sguru.lipidok.domain.interactor.MainInteractor
@@ -30,7 +29,7 @@ internal class MainViewModel : ViewModel() {
     val patients = _patients.asStateFlow()
 
     private val _patientInfo = MutableStateFlow<Pair<PatientModel, List<LipidProfileModel>>?>(null)
-     val patientInfo = _patientInfo.asStateFlow()
+    val patientInfo = _patientInfo.asStateFlow()
 
     private val _lipidProfileQuestionsResult =
         MutableStateFlow(factory.getReadyLipidProfileQuestionsResult())
@@ -59,6 +58,10 @@ internal class MainViewModel : ViewModel() {
 
             is ScreenEvent.DataBase -> {
                 onEventDataBasePatient(event)
+            }
+
+            is ScreenEvent.EditLipidProfile -> {
+                onEventEditLipidProfile(event)
             }
         }
     }
@@ -145,6 +148,27 @@ internal class MainViewModel : ViewModel() {
             is ScreenEvent.DataBase.OnItemPatientClicked -> {
                 viewModelScope.launch {
                     _patientInfo.value = interactor.getPatientById(event.patientId)
+                }
+            }
+
+            is ScreenEvent.DataBase.OnButtonEditLipidProfileClicked -> {
+
+            }
+
+            is ScreenEvent.DataBase.OnButtonEditPatientClicked -> {
+
+            }
+        }
+    }
+
+    private fun onEventEditLipidProfile(event: ScreenEvent.EditLipidProfile) {
+        when (event) {
+            is ScreenEvent.EditLipidProfile.OnButtonClickedSave -> {
+                viewModelScope.launch {
+                    interactor.updateLipidProfile(event.lipidProfileModel)
+                    _patientInfo.value?.first?.id?.let {
+                        _patientInfo.value = interactor.getPatientById(it)
+                    }
                 }
             }
         }

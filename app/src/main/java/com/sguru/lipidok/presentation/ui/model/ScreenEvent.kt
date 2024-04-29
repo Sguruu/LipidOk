@@ -1,5 +1,7 @@
 package com.sguru.lipidok.presentation.ui.model
 
+import com.sguru.lipidok.domain.model.LipidProfileModel
+
 internal sealed interface ScreenEvent {
 
     interface CreatePatient : ScreenEvent {
@@ -9,6 +11,12 @@ internal sealed interface ScreenEvent {
     interface DataBase : ScreenEvent {
         data class OnButtonClickedDeletePatient(val patientId: Long) : DataBase
         data class OnItemPatientClicked(val patientId: Long) : DataBase
+        data class OnButtonEditLipidProfileClicked(val lipidId: Long) : DataBase
+        data class OnButtonEditPatientClicked(val patientId: Long) : DataBase
+    }
+
+    interface EditLipidProfile : ScreenEvent {
+        data class OnButtonClickedSave(val lipidProfileModel: LipidProfileModel) : EditLipidProfile
     }
 
 }

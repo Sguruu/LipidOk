@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Update
 import com.sguru.lipidok.data.db.contract.LipidProfileContract
 import com.sguru.lipidok.data.db.contract.PatientContract
 import com.sguru.lipidok.data.db.model.LipidProfileEntity
@@ -48,8 +49,35 @@ interface PatientDao {
     /**
      * Метод добавлени липидного профиля
      */
-    @Insert()
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertLipidProfile(lipidProfile: List<LipidProfileEntity>)
+
+    /**
+     * Метод обновления липидного профиля
+     */
+//    @Update
+//    suspend fun updateLipidProfile(lipidProfile: LipidProfileEntity)
+
+    /**
+     * Метод обновления липидного профиля
+     */
+    @Query(
+        "UPDATE ${LipidProfileContract.TABLE_NAME} SET " +
+                "${LipidProfileContract.Columns.CHOLESTEROL} = :cholesterol," +
+                "${LipidProfileContract.Columns.LPNP} = :lpnp," +
+                "${LipidProfileContract.Columns.LPVP} = :lpvp, " +
+                "${LipidProfileContract.Columns.TRIGLYCEROLS} = :triglycerols, " +
+                "${LipidProfileContract.Columns.ATHEROGENIC_INDEX} = :atherogenicIndex " +
+                "WHERE ${LipidProfileContract.Columns.ID} IN (:id) "
+    )
+    suspend fun updateLipidProfile(
+        cholesterol: String,
+        lpnp: String,
+        lpvp: String,
+        triglycerols: String,
+        atherogenicIndex: String,
+        id: Long,
+    )
 
     /**
      * Получение списка липидного профиля по id

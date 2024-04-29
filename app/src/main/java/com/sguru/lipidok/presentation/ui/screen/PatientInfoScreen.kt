@@ -44,6 +44,7 @@ import com.sguru.lipidok.presentation.ui.component.Text20LipidOk
 import com.sguru.lipidok.presentation.ui.component.TopBarLipidOk
 import com.sguru.lipidok.presentation.ui.model.LipidProfileResult
 import com.sguru.lipidok.presentation.ui.model.LipidRiskGroupType
+import com.sguru.lipidok.presentation.ui.model.ScreenEvent
 import com.sguru.lipidok.presentation.ui.theme.Brown
 import com.sguru.lipidok.presentation.ui.theme.Green
 import com.sguru.lipidok.presentation.ui.theme.Grey
@@ -57,6 +58,7 @@ internal fun PatientInfoScreen(
     viewModel: MainViewModel,
     isNavigationIconClick: () -> Unit,
     lipidProfileResult: LipidProfileResult,
+    editLipidProfile: (LipidProfileModel) -> Unit
 ) {
     val patientInfo = viewModel.patientInfo.value
     patientInfo?.let {
@@ -64,6 +66,7 @@ internal fun PatientInfoScreen(
             isNavigationIconClick = isNavigationIconClick,
             patientInfo = it,
             lipidProfileResult = lipidProfileResult,
+            editLipidProfile = editLipidProfile,
         )
     }
 }
@@ -73,6 +76,7 @@ private fun Screen(
     isNavigationIconClick: () -> Unit,
     patientInfo: Pair<PatientModel, List<LipidProfileModel>>,
     lipidProfileResult: LipidProfileResult,
+    editLipidProfile: (LipidProfileModel) -> Unit
 ) {
     Scaffold(
         topBar = {
@@ -86,6 +90,7 @@ private fun Screen(
                 paddingValue = paddingValue,
                 patientInfo = patientInfo,
                 lipidProfileResult = lipidProfileResult,
+                editLipidProfile = editLipidProfile,
             )
         },
         bottomBar = {
@@ -111,6 +116,7 @@ private fun Content(
     paddingValue: PaddingValues,
     patientInfo: Pair<PatientModel, List<LipidProfileModel>>,
     lipidProfileResult: LipidProfileResult,
+    editLipidProfile: (LipidProfileModel) -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -205,9 +211,12 @@ private fun Content(
                     LazyRow {
                         patientInfo.second.forEach {
                             item {
+                                Spacer(modifier = Modifier.width(8.dp))
                                 RoundedLipidItem(
-                                    lipidProfile = it
+                                    lipidProfile = it,
+                                    editLipidProfile = editLipidProfile,
                                 )
+                                Spacer(modifier = Modifier.width(8.dp))
                             }
                         }
                     }
@@ -231,6 +240,7 @@ private fun Content(
 @Composable
 internal fun RoundedLipidItem(
     lipidProfile: LipidProfileModel,
+    editLipidProfile: (LipidProfileModel) -> Unit
 ) {
     Box(
         modifier = Modifier
@@ -274,9 +284,7 @@ internal fun RoundedLipidItem(
                 modifier = Modifier
                     .fillMaxWidth()
                     .heightIn(min = 24.dp)
-                    .clickable {
-
-                    }
+                    .clickable { editLipidProfile.invoke(lipidProfile) }
             )
         }
     }

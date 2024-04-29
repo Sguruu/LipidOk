@@ -174,7 +174,6 @@ private fun Content(
                 ExposedDropdownMenuLipidOkV2(
                     getSelectedOption = { valueString, index ->
                         selectedOptionText = valueString
-                        Log.d("MyTest", ">>>valueString ${valueString}")
                         val lipidRiskGroupType =
                             LipidRiskGroupType.getByTextType(selectedOptionText)
                         updatePatientModel(actualPatientModel.copy(riskLevel = lipidRiskGroupType))
@@ -363,11 +362,12 @@ private fun CreatePatientScreenPreview() {
     }
 }
 
-private fun getNewFirstLipidProfile(value: List<LipidProfile>): LipidProfile {
+internal fun getNewFirstLipidProfile(value: List<LipidProfile>): LipidProfile {
     return if (value.isNotEmpty()) {
         value.first()
     } else {
         LipidProfile(
+            id = 0L,
             cholesterol = 0.0F,
             lpnp = 0.0F,
             lpvp = 0.0F,

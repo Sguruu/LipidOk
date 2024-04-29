@@ -26,14 +26,17 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.NavGraph
 import androidx.navigation.NavHostController
+import androidx.navigation.Navigation
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.createGraph
+import com.sguru.lipidok.domain.model.LipidProfileModel
 import com.sguru.lipidok.presentation.ui.model.LipidRiskGroupType
 import com.sguru.lipidok.presentation.ui.model.ScreenEvent
 import com.sguru.lipidok.presentation.ui.navigation.NavigationState
 import com.sguru.lipidok.presentation.ui.screen.CreatePatientScreen
+import com.sguru.lipidok.presentation.ui.screen.EditLipidProfileScreen
 import com.sguru.lipidok.presentation.ui.screen.IndividualSelectionOfTherapyScreen
 import com.sguru.lipidok.presentation.ui.screen.LipidProfileAssessmentResultScreen
 import com.sguru.lipidok.presentation.ui.screen.LipidProfileAssessmentScreen
@@ -78,6 +81,7 @@ internal fun MyAppNavHost(
 ) {
     var selectedItemNavigationBar by remember { mutableIntStateOf(0) }
     val onEvent = remember { { event: ScreenEvent -> viewModel.onEvent(event) } }
+    var lipidProfileModel: LipidProfileModel? = null
 
     val navGraph: NavGraph = remember(navController) {
         navController.createGraph(startDestination = startDestination) {
@@ -215,8 +219,32 @@ internal fun MyAppNavHost(
                         LipidRiskGroupType.getByTextType(
                             viewModel.patientInfo.value?.first?.riskLevel ?: ""
                         )
-                    )
+                    ),
+                    editLipidProfile = {
+                        lipidProfileModel = it
+                        navController.navigate(
+                            route =
+                            NavigationState.EditLipidProfileScreen.baseRoute
+                        )
+                    }
                 )
+            }
+            composable(
+                route = NavigationState.EditLipidProfileScreen.baseRoute,
+                enterTransition = { fadeIn(animationSpec = tween(100)) },
+            ) {
+                lipidProfileModel?.let {
+                    EditLipidProfileScreen(
+                        isNavigationIconClick = {
+                            navController.popBackStack()
+                        },
+                        onEvent = onEvent,
+                        onSaveButtonClick = {
+                            navController.popBackStack()
+                        },
+                        lipidProfile = it
+                    )
+                }
             }
         }
 

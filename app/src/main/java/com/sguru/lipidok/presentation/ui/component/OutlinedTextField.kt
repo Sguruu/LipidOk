@@ -117,17 +117,18 @@ internal fun OutlinedTextFieldDigitLipidOk(
 
 @Composable
 internal fun OutlinedTextFieldFloatLipidOk(
+    defaultValue: String = "",
     labelText: String,
     onValueChange: (Float) -> Unit = {},
 ) {
-    var value by remember { mutableStateOf(TextFieldValue()) }
+    var value by remember { mutableStateOf(TextFieldValue(text = defaultValue)) }
 
     OutlinedTextField(
         modifier = Modifier
             .fillMaxWidth(),
         value = value,
         onValueChange = {
-            if (it.text.toFloatOrNull() != null) {
+            if (it.text.toFloatOrNull() != null || it.text.isEmpty()) {
                 value = TextFieldValue(text = it.text, selection = it.selection)
                 onValueChange(it.text.toFloatOrNull() ?: 0F)
             }
