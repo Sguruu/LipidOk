@@ -63,6 +63,10 @@ internal class MainViewModel : ViewModel() {
             is ScreenEvent.EditLipidProfile -> {
                 onEventEditLipidProfile(event)
             }
+
+            is ScreenEvent.AddLipidProfile -> {
+                onEventAddLipidProfile(event)
+            }
         }
     }
 
@@ -166,6 +170,19 @@ internal class MainViewModel : ViewModel() {
             is ScreenEvent.EditLipidProfile.OnButtonClickedSave -> {
                 viewModelScope.launch {
                     interactor.updateLipidProfile(event.lipidProfileModel)
+                    _patientInfo.value?.first?.id?.let {
+                        _patientInfo.value = interactor.getPatientById(it)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun onEventAddLipidProfile(event: ScreenEvent.AddLipidProfile) {
+        when (event) {
+            is ScreenEvent.AddLipidProfile.OnButtonClickedCreateLipidProfile -> {
+                viewModelScope.launch {
+                    interactor.saveLipidProfile(event.lipidProfileModel)
                     _patientInfo.value?.first?.id?.let {
                         _patientInfo.value = interactor.getPatientById(it)
                     }

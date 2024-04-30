@@ -2,6 +2,7 @@ package com.sguru.lipidok.presentation.ui
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -31,10 +32,12 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.createGraph
+import androidx.navigation.navigation
 import com.sguru.lipidok.domain.model.LipidProfileModel
 import com.sguru.lipidok.presentation.ui.model.LipidRiskGroupType
 import com.sguru.lipidok.presentation.ui.model.ScreenEvent
 import com.sguru.lipidok.presentation.ui.navigation.NavigationState
+import com.sguru.lipidok.presentation.ui.screen.AddLipidProfileScreen
 import com.sguru.lipidok.presentation.ui.screen.CreatePatientScreen
 import com.sguru.lipidok.presentation.ui.screen.EditLipidProfileScreen
 import com.sguru.lipidok.presentation.ui.screen.IndividualSelectionOfTherapyScreen
@@ -226,6 +229,11 @@ internal fun MyAppNavHost(
                             route =
                             NavigationState.EditLipidProfileScreen.baseRoute
                         )
+                    },
+                    isButtonAddLipidProfileClick = {
+                        navController.navigate(
+                            route = NavigationState.AddLipidProfileScreen.baseRoute
+                        )
                     }
                 )
             }
@@ -245,6 +253,21 @@ internal fun MyAppNavHost(
                         lipidProfile = it
                     )
                 }
+            }
+            composable(
+                route = NavigationState.AddLipidProfileScreen.baseRoute,
+                enterTransition = { fadeIn(animationSpec = tween(100)) },
+            ) {
+                AddLipidProfileScreen(
+                    isNavigationIconClick = {
+                        navController.popBackStack()
+                    },
+                    patientId = viewModel.patientInfo.value?.first?.id ?: 0L,
+                    onSaveButtonClick = {
+                        navController.popBackStack()
+                    },
+                    onEvent = onEvent
+                )
             }
         }
 

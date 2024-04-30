@@ -58,7 +58,8 @@ internal fun PatientInfoScreen(
     viewModel: MainViewModel,
     isNavigationIconClick: () -> Unit,
     lipidProfileResult: LipidProfileResult,
-    editLipidProfile: (LipidProfileModel) -> Unit
+    editLipidProfile: (LipidProfileModel) -> Unit,
+    isButtonAddLipidProfileClick: () -> Unit,
 ) {
     val patientInfo = viewModel.patientInfo.value
     patientInfo?.let {
@@ -67,6 +68,9 @@ internal fun PatientInfoScreen(
             patientInfo = it,
             lipidProfileResult = lipidProfileResult,
             editLipidProfile = editLipidProfile,
+            isButtonAddLipidProfileClick = {
+                isButtonAddLipidProfileClick.invoke()
+            }
         )
     }
 }
@@ -76,7 +80,8 @@ private fun Screen(
     isNavigationIconClick: () -> Unit,
     patientInfo: Pair<PatientModel, List<LipidProfileModel>>,
     lipidProfileResult: LipidProfileResult,
-    editLipidProfile: (LipidProfileModel) -> Unit
+    editLipidProfile: (LipidProfileModel) -> Unit,
+    isButtonAddLipidProfileClick: () -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -91,6 +96,7 @@ private fun Screen(
                 patientInfo = patientInfo,
                 lipidProfileResult = lipidProfileResult,
                 editLipidProfile = editLipidProfile,
+                isButtonAddLipidProfileClick = isButtonAddLipidProfileClick,
             )
         },
         bottomBar = {
@@ -116,7 +122,8 @@ private fun Content(
     paddingValue: PaddingValues,
     patientInfo: Pair<PatientModel, List<LipidProfileModel>>,
     lipidProfileResult: LipidProfileResult,
-    editLipidProfile: (LipidProfileModel) -> Unit
+    editLipidProfile: (LipidProfileModel) -> Unit,
+    isButtonAddLipidProfileClick: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -230,7 +237,7 @@ private fun Content(
                 }
             }
             item {
-                RoundedLipidAdd()
+                RoundedLipidAdd(isButtonAddLipidProfileClick)
                 Spacer(modifier = Modifier.height(36.dp))
             }
         }
@@ -291,7 +298,9 @@ internal fun RoundedLipidItem(
 }
 
 @Composable
-internal fun RoundedLipidAdd() {
+internal fun RoundedLipidAdd(
+    isButtonAddLipidProfileClick: () -> Unit
+) {
     Box(
         modifier = Modifier
             .width(370.dp)
@@ -300,7 +309,7 @@ internal fun RoundedLipidAdd() {
             .fillMaxWidth()
             .background(Grey)
             .clickable {
-
+                isButtonAddLipidProfileClick.invoke()
             },
         contentAlignment = Alignment.CenterStart
     ) {

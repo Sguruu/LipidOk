@@ -39,17 +39,20 @@ internal class MainRepository {
         dataBase.insertLipidProfile(lipidProfilesEntity)
     }
 
+    internal suspend fun saveLipidProfile(lipidProfileModels: LipidProfileModel) {
+        val lipidProfilesEntity =
+            LipidProfileEntity(
+                patientId = lipidProfileModels.patientId,
+                cholesterol = lipidProfileModels.cholesterol,
+                lpnp = lipidProfileModels.lpnp,
+                lpvp = lipidProfileModels.lpvp,
+                triglycerols = lipidProfileModels.triglycerols,
+                atherogenicIndex = lipidProfileModels.atherogenicIndex,
+            )
+        dataBase.insertLipidProfile(lipidProfilesEntity)
+    }
+
     internal suspend fun updateLipidProfile(lipidProfileModel: LipidProfileModel) {
-        val lipidProfilesEntity = LipidProfileEntity(
-            patientId = lipidProfileModel.patientId,
-            cholesterol = lipidProfileModel.cholesterol,
-            lpnp = lipidProfileModel.lpnp,
-            lpvp = lipidProfileModel.lpvp,
-            triglycerols = lipidProfileModel.triglycerols,
-            atherogenicIndex = lipidProfileModel.atherogenicIndex,
-        )
-
-
         dataBase.updateLipidProfile(
             id = lipidProfileModel.id,
             cholesterol = lipidProfileModel.cholesterol,

@@ -32,6 +32,21 @@ internal class MainInteractor {
         )
     }
 
+    internal suspend fun saveLipidProfile(value: LipidProfileModel) {
+        Log.d("MyTest",">>>saveLipidProfile $value")
+        repository.saveLipidProfile(
+                LipidProfileModel(
+                    id = value.id,
+                    patientId = value.patientId,
+                    cholesterol = value.cholesterol,
+                    lpnp = value.lpnp,
+                    lpvp = value.lpvp,
+                    triglycerols = value.triglycerols,
+                    atherogenicIndex = value.atherogenicIndex
+                )
+        )
+    }
+
     internal suspend fun getPatients(): List<PatientModel> {
         return repository.getListPatient()
     }

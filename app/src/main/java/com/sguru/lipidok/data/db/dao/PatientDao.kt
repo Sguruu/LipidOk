@@ -53,6 +53,12 @@ interface PatientDao {
     suspend fun insertLipidProfile(lipidProfile: List<LipidProfileEntity>)
 
     /**
+     * Метод добавлени липидного профиля
+     */
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertLipidProfile(lipidProfile: LipidProfileEntity)
+
+    /**
      * Метод обновления липидного профиля
      */
 //    @Update

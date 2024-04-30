@@ -19,4 +19,9 @@ internal sealed interface ScreenEvent {
         data class OnButtonClickedSave(val lipidProfileModel: LipidProfileModel) : EditLipidProfile
     }
 
+    interface AddLipidProfile : ScreenEvent {
+        data class OnButtonClickedCreateLipidProfile(val lipidProfileModel: LipidProfileModel) :
+            AddLipidProfile
+    }
+
 }
