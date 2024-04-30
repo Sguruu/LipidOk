@@ -13,4 +13,6 @@
     <string name="PatientInfoScreen">Данные пациента</string>
     <string name="EditLipidProfileScreen">Редактирование липидного профиля</string>
     <string name="AddLipidProfileScreen">Добавление липидного профиля</string>
+    <string name="PatientMainShoolScreen">Школа гиперлипидемии</string>
+    <string name="PatientMainGenerakScreen">Общее</string>
 </resources>

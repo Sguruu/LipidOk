@@ -47,6 +47,7 @@ import com.sguru.lipidok.presentation.ui.screen.LipidProfileAssessmentResultScre
 import com.sguru.lipidok.presentation.ui.screen.LipidProfileAssessmentScreen
 import com.sguru.lipidok.presentation.ui.screen.MainScreen.MainScreen
 import com.sguru.lipidok.presentation.ui.screen.PatientInfoScreen
+import com.sguru.lipidok.presentation.ui.screen.PatientMainScreen.PatientMainScreen
 import com.sguru.lipidok.presentation.ui.screen.RoleSelectionScreen
 import com.sguru.lipidok.presentation.ui.theme.LipidOkTheme
 import com.sguru.lipidok.presentation.ui.viewmodel.MainViewModel
@@ -110,7 +111,7 @@ internal fun MyAppNavHost(
                         navController.navigate(NavigationState.MainScreen.baseRoute)
                     },
                     onButton2Click = {
-                        // Экран пациента
+                        navController.navigate(NavigationState.PatientMainScreen.baseRoute)
                     },
                 )
             }
@@ -292,7 +293,6 @@ internal fun MyAppNavHost(
                 enterTransition = { fadeIn(animationSpec = tween(100)) },
             ) {
                 viewModel.patientInfo.value?.first?.let {
-                    Log.d("MyTest", ">>>EditPatientScreen patientModel $it")
                     EditPatientScreen(
                         isNavigationIconClick = {
                             navController.popBackStack()
@@ -305,8 +305,19 @@ internal fun MyAppNavHost(
                     )
                 }
             }
+            /* Экраны пациента */
+            composable(
+                route = NavigationState.PatientMainScreen.baseRoute,
+                enterTransition = { fadeIn(animationSpec = tween(100)) },
+            ) {
+                PatientMainScreen(
+                    isNavigationIconClick = {
+                        navController.popBackStack()
+                    },
+                    appVersion = viewModel.appVersion
+                )
+            }
         }
-        /* Экраны пациента */
     }
     NavHost(navController = navController, graph = navGraph)
 }

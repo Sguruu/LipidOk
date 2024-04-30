@@ -16,4 +16,5 @@ sealed class NavigationState(val baseRoute: String) {
     data object EditLipidProfileScreen : NavigationState("EDIT_LIPID_PROFILE")
     data object PatientEditScreen : NavigationState("PATIENT_EDIT")
     data object AddLipidProfileScreen : NavigationState("ADD_LIPID_PROFILE")
+    data object PatientMainScreen : NavigationState("PATIENT_MAIN")
 }
