@@ -211,7 +211,7 @@ internal fun MyAppNavHost(
             }
             composable(
                 route = NavigationState.PatientInfoScreen.baseRoute,
-                enterTransition = { fadeIn(animationSpec = tween(100)) },
+                enterTransition = { fadeIn(animationSpec = tween(200)) },
             ) {
                 PatientInfoScreen(
                     viewModel = viewModel,
