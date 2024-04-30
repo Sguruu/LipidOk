@@ -53,7 +53,7 @@ internal fun MainScreen(
     onPatientClick: () -> Unit,
 ) {
     var listPatient by remember { mutableStateOf(viewModel.patients.value) }
-    listPatient = viewModel.patients.collectAsState().value
+    listPatient = viewModel.patients.collectAsState().value.asReversed()
     Screen(
         isNavigationIconClick = isNavigationIconClick,
         onButtonLipidProfileAssessmentClick = onButtonLipidProfileAssessmentClick,
@@ -61,7 +61,7 @@ internal fun MainScreen(
         selectedItemNavigationBar = selectedItemNavigationBar,
         onClickNavBar = onClickNavBar,
         onClickCreatePatientButton = onClickCreatePatientButton,
-        listPatient = viewModel.patients.value,
+        listPatient = listPatient,
         onEvent = onEvent,
         onPatientClick = onPatientClick,
     )

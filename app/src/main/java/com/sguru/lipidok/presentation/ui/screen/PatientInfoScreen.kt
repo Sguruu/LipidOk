@@ -216,7 +216,7 @@ private fun Content(
                 Spacer(modifier = Modifier.height(36.dp))
                 if (patientInfo.second.isNotEmpty()) {
                     LazyRow {
-                        patientInfo.second.forEach {
+                        patientInfo.second.asReversed().forEach {
                             item {
                                 Spacer(modifier = Modifier.width(8.dp))
                                 RoundedLipidItem(
