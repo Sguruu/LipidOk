@@ -7,6 +7,7 @@ import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.annotation.RawRes
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.animation.core.tween
@@ -20,6 +21,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -28,12 +30,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.NavGraph
 import androidx.navigation.NavHostController
-import androidx.navigation.Navigation
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.createGraph
-import androidx.navigation.navigation
 import com.sguru.lipidok.domain.model.LipidProfileModel
 import com.sguru.lipidok.presentation.ui.model.LipidRiskGroupType
 import com.sguru.lipidok.presentation.ui.model.ScreenEvent
@@ -48,11 +48,11 @@ import com.sguru.lipidok.presentation.ui.screen.LipidProfileAssessmentScreen
 import com.sguru.lipidok.presentation.ui.screen.MainScreen.MainScreen
 import com.sguru.lipidok.presentation.ui.screen.PatientInfoScreen
 import com.sguru.lipidok.presentation.ui.screen.PatientMainScreen.PatientMainScreen
+import com.sguru.lipidok.presentation.ui.screen.PdfReaderScreen
 import com.sguru.lipidok.presentation.ui.screen.RoleSelectionScreen
 import com.sguru.lipidok.presentation.ui.theme.LipidOkTheme
 import com.sguru.lipidok.presentation.ui.viewmodel.MainViewModel
 import com.sguru.lipidok.presentation.ui.viewmodel.factory.MainFactory
-import kotlinx.coroutines.delay
 
 @SuppressLint("Custom")
 class MainActivity : ComponentActivity() {
@@ -99,6 +99,7 @@ internal fun MyAppNavHost(
     var selectedItemNavigationBar by remember { mutableIntStateOf(0) }
     val onEvent = remember { { event: ScreenEvent -> viewModel.onEvent(event) } }
     var lipidProfileModel: LipidProfileModel? = null
+    var rawRes by remember { mutableStateOf<@receiver:RawRes Int?>(null) }
 
     val navGraph: NavGraph = remember(navController) {
         navController.createGraph(startDestination = startDestination) {
@@ -314,30 +315,30 @@ internal fun MyAppNavHost(
                     isNavigationIconClick = {
                         navController.popBackStack()
                     },
-                    appVersion = viewModel.appVersion
+                    appVersion = viewModel.appVersion,
+                    onClickArticle = {
+                        rawRes = it
+                        Log.d("MyTest", ">>>onClickArticle $it")
+                        navController.navigate(NavigationState.PdfReaderScreen.baseRoute)
+                    }
                 )
+            }
+            composable(
+                route = NavigationState.PdfReaderScreen.baseRoute,
+                enterTransition = { fadeIn(animationSpec = tween(100)) },
+            ) {
+                rawRes?.let {
+                    PdfReaderScreen(
+                        isNavigationIconClick = {
+                            navController.popBackStack()
+                        },
+                        rawRes = it
+                    )
+                }
             }
         }
     }
     NavHost(navController = navController, graph = navGraph)
-}
-
-@Composable
-fun EnterAnimation(content: @Composable () -> Unit) {
-    AnimatedVisibility(
-        visibleState = MutableTransitionState(
-            initialState = false
-        ).apply { targetState = true },
-        modifier = Modifier,
-        enter = slideInVertically(
-            initialOffsetY = { -40 }
-        ) + expandVertically(
-            expandFrom = Alignment.Top
-        ) + fadeIn(initialAlpha = 0.3f),
-        exit = slideOutVertically() + shrinkVertically() + fadeOut(),
-    ) {
-        content()
-    }
 }
 
 @Composable
