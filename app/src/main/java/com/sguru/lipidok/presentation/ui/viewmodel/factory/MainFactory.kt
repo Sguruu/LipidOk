@@ -264,8 +264,8 @@ internal class MainFactory {
                                     text = "Нет",
                                     answerOptions = listOf(
                                         IndividualSelectionQuestion(
-                                            text = "Ловастатин 0,5 мг/кг 1 раз в сутки или" +
-                                                    "Розувастатин до 20 мг 1 раз в сутки или" +
+                                            text = "Ловастатин 0,5 мг/кг 1 раз в сутки или " +
+                                                    "Розувастатин до 20 мг 1 раз в сутки или " +
                                                     "Аторвастатин до 20 мг 1 раз в сутки",
                                             answerOptions = null
                                         )
