@@ -1,6 +1,8 @@
 package com.sguru.lipidok.data.repository
 
+import androidx.room.Query
 import com.sguru.lipidok.data.db.DataBase
+import com.sguru.lipidok.data.db.contract.LipidProfileContract
 import com.sguru.lipidok.data.db.model.LipidProfileEntity
 import com.sguru.lipidok.data.db.model.PatientEntity
 import com.sguru.lipidok.domain.model.LipidProfileModel
@@ -129,6 +131,13 @@ internal class MainRepository {
     internal suspend fun deleteLipidProfile(patientId: Long) {
         dataBase.deleteLipidProfile(patientId)
     }
+    internal suspend fun getObjectLipidProfileCount(patientId: Long): Int {
+        return dataBase.getObjectLipidProfileCount(patientId)
+    }
+
+   internal suspend fun deleteFirstLipidProfile(patientId: Long){
+       dataBase.deleteFirstLipidProfile(patientId)
+   }
 }
 
 

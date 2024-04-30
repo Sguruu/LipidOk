@@ -4,7 +4,6 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import androidx.room.Update
 import com.sguru.lipidok.data.db.contract.LipidProfileContract
 import com.sguru.lipidok.data.db.contract.PatientContract
 import com.sguru.lipidok.data.db.model.LipidProfileEntity
@@ -99,4 +98,24 @@ interface PatientDao {
 
     @Query("DELETE FROM ${LipidProfileContract.TABLE_NAME} WHERE patientId = :patientId")
     suspend fun deleteLipidProfile(patientId: Long)
+
+    // Получение количества объектов
+    @Query("SELECT COUNT(*) FROM ${LipidProfileContract.TABLE_NAME} WHERE patientId = :patientId")
+    suspend fun getObjectLipidProfileCount(patientId: Long): Int
+
+    // Удаление первого объекта из списка
+    // Удаление первого объекта из списка, ориентируясь на id
+    @Query(
+        "DELETE FROM ${LipidProfileContract.TABLE_NAME} WHERE ${LipidProfileContract.Columns.ID} " +
+                "= (SELECT MIN(${LipidProfileContract.Columns.ID}) FROM ${LipidProfileContract.TABLE_NAME} " +
+                "WHERE ${LipidProfileContract.Columns.PATIENT_ID} = :patientId)"
+    )
+    suspend fun deleteFirstLipidProfile(patientId: Long)
+
+
+//    @Query(
+//        "DELETE FROM ${LipidProfileContract.TABLE_NAME} WHERE ${LipidProfileContract.Columns.ID} " +
+//                "= (SELECT MIN(${LipidProfileContract.Columns.ID}) FROM ${LipidProfileContract.TABLE_NAME} " +
+//                "WHERE ${LipidProfileContract.Columns.NAME} = :name)"
+//    )
 }

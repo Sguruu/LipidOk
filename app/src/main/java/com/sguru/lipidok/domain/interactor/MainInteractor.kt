@@ -33,17 +33,19 @@ internal class MainInteractor {
     }
 
     internal suspend fun saveLipidProfile(value: LipidProfileModel) {
-        Log.d("MyTest",">>>saveLipidProfile $value")
+        if (repository.getObjectLipidProfileCount(value.patientId) >= 30) {
+            repository.deleteFirstLipidProfile(value.patientId)
+        }
         repository.saveLipidProfile(
-                LipidProfileModel(
-                    id = value.id,
-                    patientId = value.patientId,
-                    cholesterol = value.cholesterol,
-                    lpnp = value.lpnp,
-                    lpvp = value.lpvp,
-                    triglycerols = value.triglycerols,
-                    atherogenicIndex = value.atherogenicIndex
-                )
+            LipidProfileModel(
+                id = value.id,
+                patientId = value.patientId,
+                cholesterol = value.cholesterol,
+                lpnp = value.lpnp,
+                lpvp = value.lpvp,
+                triglycerols = value.triglycerols,
+                atherogenicIndex = value.atherogenicIndex
+            )
         )
     }
 
