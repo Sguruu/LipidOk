@@ -1,6 +1,7 @@
 package com.sguru.lipidok.presentation.ui
 
 import android.annotation.SuppressLint
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
@@ -66,11 +67,21 @@ class MainActivity : ComponentActivity() {
             viewModel.isLoading.value
         }
 
+        viewModel.appVersion = getAppVersion()
 
         setContent {
             LipidOkTheme {
                 MyAppNavHost(factory = factory, viewModel = viewModel)
             }
+        }
+    }
+
+    fun getAppVersion(): String {
+        return try {
+            val packageInfo = this.packageManager.getPackageInfo(this.packageName, 0)
+            packageInfo.versionName
+        } catch (e: PackageManager.NameNotFoundException) {
+            "N/A"
         }
     }
 }
@@ -281,7 +292,7 @@ internal fun MyAppNavHost(
                 enterTransition = { fadeIn(animationSpec = tween(100)) },
             ) {
                 viewModel.patientInfo.value?.first?.let {
-                    Log.d("MyTest",">>>EditPatientScreen patientModel $it")
+                    Log.d("MyTest", ">>>EditPatientScreen patientModel $it")
                     EditPatientScreen(
                         isNavigationIconClick = {
                             navController.popBackStack()

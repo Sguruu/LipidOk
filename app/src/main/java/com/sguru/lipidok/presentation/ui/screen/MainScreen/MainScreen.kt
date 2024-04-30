@@ -67,6 +67,7 @@ internal fun MainScreen(
         listPatient = listPatient,
         onEvent = onEvent,
         onPatientClick = onPatientClick,
+        appVersion = viewModel.appVersion,
     )
 }
 
@@ -80,7 +81,8 @@ private fun Screen(
     onClickCreatePatientButton: () -> Unit,
     listPatient: List<com.sguru.lipidok.domain.model.PatientModel>,
     onEvent: (ScreenEvent) -> Unit,
-    onPatientClick: () -> Unit
+    onPatientClick: () -> Unit,
+    appVersion: String,
 ) {
 
 
@@ -130,13 +132,10 @@ private fun Screen(
                 }
 
                 GENERAL_NAV -> {
-//                    if (patientInfo != null) {
-//
-//                        GeneralContent(
-//                            paddingValue = paddingValue,
-//                            patientInfo = patientInfo,
-//                        )
-//                    }
+                    GeneralContent(
+                        paddingValue = paddingValue,
+                        appVersion = appVersion,
+                    )
                 }
             }
         },

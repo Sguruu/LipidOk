@@ -22,6 +22,8 @@ internal class MainViewModel : ViewModel() {
     private val interactor = MainInteractor()
     private val factory = MainFactory()
 
+    var appVersion: String = ""
+
     private val _isLoading = MutableStateFlow(true)
     val isLoading = _isLoading.asStateFlow()
 
