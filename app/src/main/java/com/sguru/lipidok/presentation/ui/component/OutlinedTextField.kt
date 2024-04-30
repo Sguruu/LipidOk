@@ -55,10 +55,11 @@ internal fun OutlinedTextFieldAgeLipidOk(
 
 @Composable
 internal fun OutlinedTextFieldLipidOk(
+    defaultValue: String = "",
     labelText: String,
     onValueChange: (String) -> Unit = {},
 ) {
-    var text by remember { mutableStateOf(TextFieldValue()) }
+    var text by remember { mutableStateOf(TextFieldValue(text = defaultValue)) }
 
     OutlinedTextField(
         modifier = Modifier
@@ -86,10 +87,11 @@ internal fun OutlinedTextFieldLipidOk(
 
 @Composable
 internal fun OutlinedTextFieldDigitLipidOk(
+    defaultValue: String = "",
     labelText: String,
     onValueChange: (String) -> Unit = {},
 ) {
-    var text by remember { mutableStateOf(TextFieldValue()) }
+    var text by remember { mutableStateOf(TextFieldValue(text = defaultValue)) }
 
     OutlinedTextField(
         modifier = Modifier

@@ -32,6 +32,10 @@ internal class MainInteractor {
         )
     }
 
+    internal suspend fun updatePatient(patientModel: PatientModel) {
+        repository.updatePatient(patientModel)
+    }
+
     internal suspend fun saveLipidProfile(value: LipidProfileModel) {
         if (repository.getObjectLipidProfileCount(value.patientId) >= 30) {
             repository.deleteFirstLipidProfile(value.patientId)

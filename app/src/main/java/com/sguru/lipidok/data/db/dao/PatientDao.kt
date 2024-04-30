@@ -58,6 +58,25 @@ interface PatientDao {
     suspend fun insertLipidProfile(lipidProfile: LipidProfileEntity)
 
     /**
+     * Метод обновления пациента
+     */
+    @Query(
+        "UPDATE ${PatientContract.TABLE_NAME} SET " +
+                "${PatientContract.Columns.User.NAME} = :name," +
+                "${PatientContract.Columns.User.SURNAME} = :surname," +
+                "${PatientContract.Columns.User.EMIAS} = :emias, " +
+                "${PatientContract.Columns.RiskHyperlipidemia.RISK_LEVEL} = :riskLevel " +
+                "WHERE ${PatientContract.Columns.ID} IN (:id) "
+    )
+    suspend fun updatePatient(
+        id: Long,
+        name: String,
+        surname: String,
+        emias: String,
+        riskLevel: String,
+    )
+
+    /**
      * Метод обновления липидного профиля
      */
 //    @Update

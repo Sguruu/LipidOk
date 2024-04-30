@@ -24,4 +24,9 @@ internal sealed interface ScreenEvent {
             AddLipidProfile
     }
 
+    interface EditPatient : ScreenEvent {
+        data class OnButtonClickEditPatient(val patientModel: com.sguru.lipidok.domain.model.PatientModel) :
+            EditPatient
+    }
+
 }

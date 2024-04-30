@@ -40,6 +40,7 @@ import com.sguru.lipidok.presentation.ui.navigation.NavigationState
 import com.sguru.lipidok.presentation.ui.screen.AddLipidProfileScreen
 import com.sguru.lipidok.presentation.ui.screen.CreatePatientScreen
 import com.sguru.lipidok.presentation.ui.screen.EditLipidProfileScreen
+import com.sguru.lipidok.presentation.ui.screen.EditPatientScreen
 import com.sguru.lipidok.presentation.ui.screen.IndividualSelectionOfTherapyScreen
 import com.sguru.lipidok.presentation.ui.screen.LipidProfileAssessmentResultScreen
 import com.sguru.lipidok.presentation.ui.screen.LipidProfileAssessmentScreen
@@ -235,6 +236,11 @@ internal fun MyAppNavHost(
                         navController.navigate(
                             route = NavigationState.AddLipidProfileScreen.baseRoute
                         )
+                    },
+                    isButtonEditPatientClick = {
+                        navController.navigate(
+                            route = NavigationState.PatientEditScreen.baseRoute
+                        )
                     }
                 )
             }
@@ -270,8 +276,25 @@ internal fun MyAppNavHost(
                     onEvent = onEvent
                 )
             }
+            composable(
+                route = NavigationState.PatientEditScreen.baseRoute,
+                enterTransition = { fadeIn(animationSpec = tween(100)) },
+            ) {
+                viewModel.patientInfo.value?.first?.let {
+                    Log.d("MyTest",">>>EditPatientScreen patientModel $it")
+                    EditPatientScreen(
+                        isNavigationIconClick = {
+                            navController.popBackStack()
+                        },
+                        patientModel = it,
+                        isOnSaveButtonClick = {
+                            navController.popBackStack()
+                        },
+                        onEvent = onEvent
+                    )
+                }
+            }
         }
-
         /* Экраны пациента */
     }
     NavHost(navController = navController, graph = navGraph)

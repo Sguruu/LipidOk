@@ -60,6 +60,7 @@ internal fun PatientInfoScreen(
     lipidProfileResult: LipidProfileResult,
     editLipidProfile: (LipidProfileModel) -> Unit,
     isButtonAddLipidProfileClick: () -> Unit,
+    isButtonEditPatientClick: () -> Unit,
 ) {
     val patientInfo by viewModel.patientInfo.collectAsState()
 
@@ -71,7 +72,8 @@ internal fun PatientInfoScreen(
         editLipidProfile = editLipidProfile,
         isButtonAddLipidProfileClick = {
             isButtonAddLipidProfileClick.invoke()
-        }
+        },
+        isButtonEditPatientClick = isButtonEditPatientClick
     )
 
 }
@@ -83,6 +85,7 @@ private fun Screen(
     lipidProfileResult: LipidProfileResult,
     editLipidProfile: (LipidProfileModel) -> Unit,
     isButtonAddLipidProfileClick: () -> Unit,
+    isButtonEditPatientClick: () -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -108,9 +111,7 @@ private fun Screen(
                 contentAlignment = Alignment.Center
             ) {
                 ButtonLipidOk(
-                    onClick = {
-                        //Редактировать
-                    },
+                    onClick = isButtonEditPatientClick,
                     text = "Редактировать"
                 )
             }

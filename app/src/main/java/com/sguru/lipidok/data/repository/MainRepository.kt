@@ -27,6 +27,16 @@ internal class MainRepository {
         )
     }
 
+    internal suspend fun updatePatient(value: PatientModel) {
+        dataBase.updatePatient(
+            id = value.id,
+            name = value.name,
+            surname = value.surname,
+            emias = value.surname,
+            riskLevel = value.riskLevel,
+        )
+    }
+
     internal suspend fun saveLipidProfile(lipidProfileModels: List<LipidProfileModel>) {
         val lipidProfilesEntity = lipidProfileModels.map {
             LipidProfileEntity(
@@ -131,13 +141,14 @@ internal class MainRepository {
     internal suspend fun deleteLipidProfile(patientId: Long) {
         dataBase.deleteLipidProfile(patientId)
     }
+
     internal suspend fun getObjectLipidProfileCount(patientId: Long): Int {
         return dataBase.getObjectLipidProfileCount(patientId)
     }
 
-   internal suspend fun deleteFirstLipidProfile(patientId: Long){
-       dataBase.deleteFirstLipidProfile(patientId)
-   }
+    internal suspend fun deleteFirstLipidProfile(patientId: Long) {
+        dataBase.deleteFirstLipidProfile(patientId)
+    }
 }
 
 
