@@ -65,6 +65,7 @@ internal fun CreatePatientScreen(
                     actualPatientModel
                 )
             )
+            isNavigationIconClick.invoke()
         },
         actualPatientModel = actualPatientModel,
         updatePatientModel = {
@@ -116,7 +117,7 @@ private fun Content(
     actualPatientModel: PatientModel,
     updatePatientModel: (PatientModel) -> Unit,
 ) {
-    var selectedOptionText by remember { mutableStateOf("Не выбрано") }
+    var selectedOptionText by remember { mutableStateOf(LipidRiskGroupType.LOW.text) }
     var isAdList by remember { mutableStateOf(true) }
 
     Column(
