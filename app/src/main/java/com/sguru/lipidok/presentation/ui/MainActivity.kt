@@ -49,6 +49,7 @@ import com.sguru.lipidok.presentation.ui.screen.RoleSelectionScreen
 import com.sguru.lipidok.presentation.ui.theme.LipidOkTheme
 import com.sguru.lipidok.presentation.ui.viewmodel.MainViewModel
 import com.sguru.lipidok.presentation.ui.viewmodel.factory.MainFactory
+import kotlinx.coroutines.delay
 
 @SuppressLint("Custom")
 class MainActivity : ComponentActivity() {
@@ -211,7 +212,7 @@ internal fun MyAppNavHost(
             }
             composable(
                 route = NavigationState.PatientInfoScreen.baseRoute,
-                enterTransition = { fadeIn(animationSpec = tween(200)) },
+                enterTransition = { fadeIn(animationSpec = tween(100)) },
             ) {
                 PatientInfoScreen(
                     viewModel = viewModel,

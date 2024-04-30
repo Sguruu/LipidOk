@@ -61,18 +61,19 @@ internal fun PatientInfoScreen(
     editLipidProfile: (LipidProfileModel) -> Unit,
     isButtonAddLipidProfileClick: () -> Unit,
 ) {
-    val patientInfo = viewModel.patientInfo.value
-    patientInfo?.let {
-        Screen(
-            isNavigationIconClick = isNavigationIconClick,
-            patientInfo = it,
-            lipidProfileResult = lipidProfileResult,
-            editLipidProfile = editLipidProfile,
-            isButtonAddLipidProfileClick = {
-                isButtonAddLipidProfileClick.invoke()
-            }
-        )
-    }
+    val patientInfo by viewModel.patientInfo.collectAsState()
+
+    Screen(
+        isNavigationIconClick = isNavigationIconClick,
+        patientInfo = patientInfo
+            ?: Pair(PatientModel(0, "", "", "", ""), listOf()),
+        lipidProfileResult = lipidProfileResult,
+        editLipidProfile = editLipidProfile,
+        isButtonAddLipidProfileClick = {
+            isButtonAddLipidProfileClick.invoke()
+        }
+    )
+
 }
 
 @Composable

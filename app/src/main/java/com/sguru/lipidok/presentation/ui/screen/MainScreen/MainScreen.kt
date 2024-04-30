@@ -50,7 +50,7 @@ internal fun MainScreen(
     onClickNavBar: (Int) -> Unit,
     viewModel: MainViewModel,
     onEvent: (ScreenEvent) -> Unit,
-    onPatientClick: () -> Unit,
+    onPatientClick:  () -> Unit,
 ) {
     var listPatient by remember { mutableStateOf(viewModel.patients.value) }
     listPatient = viewModel.patients.collectAsState().value.asReversed()
