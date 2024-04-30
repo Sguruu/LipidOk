@@ -12,6 +12,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountBox
+import androidx.compose.material.icons.filled.FavoriteBorder
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
@@ -50,7 +53,7 @@ internal fun MainScreen(
     onClickNavBar: (Int) -> Unit,
     viewModel: MainViewModel,
     onEvent: (ScreenEvent) -> Unit,
-    onPatientClick:  () -> Unit,
+    onPatientClick: () -> Unit,
 ) {
     var listPatient by remember { mutableStateOf(viewModel.patients.value) }
     listPatient = viewModel.patients.collectAsState().value.asReversed()
@@ -216,7 +219,21 @@ fun NavigationBarSample(
     NavigationBar {
         items.forEachIndexed { index, item ->
             NavigationBarItem(
-                icon = { Icon(Icons.Filled.Star, contentDescription = item) },
+                icon = {
+                    when (index) {
+                        PATIENT_NAV -> {
+                            Icon(Icons.Filled.FavoriteBorder, contentDescription = item)
+                        }
+
+                        DATA_BASE_NAV -> {
+                            Icon(Icons.Filled.AccountBox, contentDescription = item)
+                        }
+
+                        GENERAL_NAV -> {
+                            Icon(Icons.Filled.Info, contentDescription = item)
+                        }
+                    }
+                },
                 label = { Text(item) },
                 selected = selectedItemNavigationBar == index,
                 onClick = { onClickNavBar(index) }
