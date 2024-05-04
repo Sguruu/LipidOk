@@ -51,7 +51,7 @@ private fun RoleSelectionContent(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text20LipidOk(text = "Выбери свою роль")
+        Text20LipidOk(text = "Вы:")
 
         Spacer(modifier = Modifier.height(120.dp))
 

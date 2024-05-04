@@ -22,12 +22,21 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountBox
 import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
 import com.sguru.lipidok.presentation.ui.component.Text14LipidOk
 import com.sguru.lipidok.presentation.ui.theme.Wave2
 
@@ -38,6 +47,9 @@ internal fun DataBaseContent(
     onDeleteClick: (Long) -> Unit,
     onPatientClick: (Long) -> Unit,
 ) {
+    var showDialog by remember { mutableStateOf(false) }
+    var indexDeletePatient by remember { mutableStateOf<Int?>(null) }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -61,7 +73,8 @@ internal fun DataBaseContent(
                             firstName = patientModel.name,
                             emias = patientModel.emias,
                             onDeleteClick = {
-                                onDeleteClick(listPatient[index].id)
+                                indexDeletePatient = index
+                                showDialog = true
                             },
                             onPatientClick = {
                                 onPatientClick(listPatient[index].id)
@@ -78,6 +91,20 @@ internal fun DataBaseContent(
             }
         }
     }
+
+    AlertDialogSample(
+        openDialog = showDialog,
+        confirmButton = {
+            showDialog = false
+            indexDeletePatient?.let { index ->
+                onDeleteClick(listPatient[index].id)
+                indexDeletePatient = null
+            }
+        },
+        dismissButton = {
+            showDialog = false
+        }
+    )
 }
 
 @Composable
@@ -142,5 +169,47 @@ fun ContactListItem(
                 )
             }
         }
+    }
+}
+
+@Composable
+fun AlertDialogSample(
+    openDialog: Boolean,
+    confirmButton: () -> Unit,
+    dismissButton: () -> Unit,
+) {
+    if (openDialog) {
+        AlertDialog(
+            onDismissRequest = {
+                // Dismiss the dialog when the user clicks outside the dialog or on the back
+                // button. If you want to disable that functionality, simply use an empty
+                // onCloseRequest.
+                dismissButton.invoke()
+            },
+            title = {
+                Text(text = "Вы уверены, что хотите удалить запись?")
+            },
+            text = {
+                Text("")
+            },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        confirmButton.invoke()
+                    }
+                ) {
+                    Text("Да", color = Color.White)
+                }
+            },
+            dismissButton = {
+                TextButton(
+                    onClick = {
+                        dismissButton.invoke()
+                    }
+                ) {
+                    Text("Нет", color = Color.White)
+                }
+            }
+        )
     }
 }

@@ -120,7 +120,7 @@ private fun Content(
             item {
                 Spacer(modifier = Modifier.height(32.dp))
                 OutlinedTextFieldFloatLipidOk(
-                    labelText = "Общий холестерин",
+                    labelText = "Общий холестерин, ммоль/л",
                     onValueChange = {
                         val newLipidProfile = lipidProfile.copy(
                             cholesterol = it.toString()
@@ -132,7 +132,7 @@ private fun Content(
             item {
                 Spacer(modifier = Modifier.height(32.dp))
                 OutlinedTextFieldFloatLipidOk(
-                    labelText = "ЛПНП",
+                    labelText = "ЛПНП, ммоль/л",
                     onValueChange = {
                         val newLipidProfile = lipidProfile.copy(
                             lpnp = it.toString()
@@ -144,7 +144,7 @@ private fun Content(
             item {
                 Spacer(modifier = Modifier.height(32.dp))
                 OutlinedTextFieldFloatLipidOk(
-                    labelText = "ЛПВП",
+                    labelText = "ЛПВП, ммоль/л",
                     onValueChange = {
                         val newLipidProfile = lipidProfile.copy(
                             lpvp = it.toString()
@@ -156,7 +156,7 @@ private fun Content(
             item {
                 Spacer(modifier = Modifier.height(32.dp))
                 OutlinedTextFieldFloatLipidOk(
-                    labelText = "Триглицериды",
+                    labelText = "Триглицериды, ммоль/л",
                     onValueChange = {
                         val newLipidProfile = lipidProfile.copy(
                             triglycerols = it.toString()

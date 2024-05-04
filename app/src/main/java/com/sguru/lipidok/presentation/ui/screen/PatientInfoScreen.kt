@@ -264,22 +264,22 @@ internal fun RoundedLipidItem(
         Column {
             Spacer(modifier = Modifier.height(24.dp))
             OutlinedTextFieldOutputLipidOk(
-                labelText = "Общий холестерин",
+                labelText = "Общий холестерин, ммоль/л",
                 text = lipidProfile.cholesterol
             )
             Spacer(modifier = Modifier.height(24.dp))
             OutlinedTextFieldOutputLipidOk(
-                labelText = "ЛПНП",
+                labelText = "ЛПНП, ммоль/л",
                 text = lipidProfile.lpnp
             )
             Spacer(modifier = Modifier.height(24.dp))
             OutlinedTextFieldOutputLipidOk(
-                labelText = "ЛПВП",
+                labelText = "ЛПВП, ммоль/л",
                 text = lipidProfile.lpvp
             )
             Spacer(modifier = Modifier.height(24.dp))
             OutlinedTextFieldOutputLipidOk(
-                labelText = "Триглицериды",
+                labelText = "Триглицериды, ммоль/л",
                 text = lipidProfile.triglycerols
             )
             Spacer(modifier = Modifier.height(24.dp))

@@ -264,8 +264,8 @@ internal class MainFactory {
                                     text = "Нет",
                                     answerOptions = listOf(
                                         IndividualSelectionQuestion(
-                                            text = "Ловастатин 0,5 мг/кг 1 раз в сутки или " +
-                                                    "Розувастатин до 20 мг 1 раз в сутки или " +
+                                            text = "Ловастатин 0,5 мг/кг 1 раз в сутки\nили\n" +
+                                                    "Розувастатин до 20 мг 1 раз в сутки\nили\n" +
                                                     "Аторвастатин до 20 мг 1 раз в сутки",
                                             answerOptions = null
                                         )
@@ -316,7 +316,7 @@ internal class MainFactory {
                 ),
                 // 4 ветка
                 IndividualSelectionQuestion(
-                    text = "Статины + Эзетемиб",
+                    text = "Статины + Эзетимиб",
                     answerOptions = listOf(
                         IndividualSelectionQuestion(
                             text = "Достигнут ли целевой уровень показателей " +
