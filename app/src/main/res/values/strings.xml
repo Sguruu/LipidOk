@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Lipid Ok</string>
+    <string name="app_name">ЛипидОК</string>
 
     <!-- Headers Screen  -->
     <string name="HeadersRoleSelectionScreen">Выбор роли</string>
